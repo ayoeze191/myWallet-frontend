@@ -1,28 +1,39 @@
-import { useState } from "react";
+import { NavLink, useLocation, useSearchParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import {
   HomeIcon,
-  WalletIcon,
   ArrowUpIcon,
   ArrowDownIcon,
   ClockIcon,
+  UsersIcon,
   UserIcon,
   LogOutIcon,
-  MenuIcon,
   XIcon,
 } from "lucide-react";
 
+// Wallet views live on the dashboard as tabs, so those entries carry a ?tab=
+// and the dashboard reads it back. Ajo has pages of its own.
+const MENU = [
+  { to: "/", label: "Dashboard", icon: HomeIcon, tab: "overview" },
+  { to: "/contributions", label: "My Ajo", icon: UsersIcon },
+  { to: "/?tab=fund", label: "Fund Wallet", icon: ArrowUpIcon, tab: "fund" },
+  { to: "/?tab=transfer", label: "Send Money", icon: ArrowDownIcon, tab: "transfer" },
+  { to: "/?tab=history", label: "History", icon: ClockIcon, tab: "history" },
+];
+
 export default function Sidebar({ isOpen, onClose }) {
   const { user, logout } = useAuth();
-  const [activeItem, setActiveItem] = useState("dashboard");
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: HomeIcon },
-    { id: "wallet", label: "My Wallet", icon: WalletIcon },
-    { id: "fund", label: "Fund Wallet", icon: ArrowUpIcon },
-    { id: "transfer", label: "Send Money", icon: ArrowDownIcon },
-    { id: "history", label: "History", icon: ClockIcon },
-  ];
+  const currentTab = searchParams.get("tab") || "overview";
+
+  function isActive(item) {
+    if (item.tab) {
+      return location.pathname === "/" && currentTab === item.tab;
+    }
+    return location.pathname.startsWith(item.to);
+  }
 
   return (
     <>
@@ -36,11 +47,11 @@ export default function Sidebar({ isOpen, onClose }) {
         <div className="sidebar-header">
           <div className="sidebar-brand">
             <div className="brand-icon">
-              <WalletIcon size={24} color="#fff" />
+              <UsersIcon size={24} color="#fff" />
             </div>
             <div>
-              <h2 className="brand-name">Wallet Ledger</h2>
-              <span className="brand-sub">FORM 7-A · CONTINUOUS</span>
+              <h2 className="brand-name">Ajo</h2>
+              <span className="brand-sub">SAVE TOGETHER</span>
             </div>
           </div>
           <button className="sidebar-close" onClick={onClose}>
@@ -59,15 +70,16 @@ export default function Sidebar({ isOpen, onClose }) {
         </div>
 
         <nav className="sidebar-nav">
-          {menuItems.map((item) => (
-            <button
-              key={item.id}
-              className={`nav-item ${activeItem === item.id ? "nav-item-active" : ""}`}
-              onClick={() => setActiveItem(item.id)}
+          {MENU.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              onClick={onClose}
+              className={`nav-item ${isActive(item) ? "nav-item-active" : ""}`}
             >
               <item.icon size={20} />
               <span>{item.label}</span>
-            </button>
+            </NavLink>
           ))}
         </nav>
 

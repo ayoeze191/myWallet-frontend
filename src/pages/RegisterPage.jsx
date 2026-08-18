@@ -1,13 +1,18 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext';
+import { useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
+import { safeNext } from "../lib/nav";
+import { AuthLayout } from "../components/AuthLayout";
 
 export default function RegisterPage() {
   const { register } = useAuth();
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [searchParams] = useSearchParams();
+  // Someone who arrived from an Ajo invite goes back to it after signing up.
+  const next = safeNext(searchParams.get("next"));
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +22,7 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       await register(name, email, password);
-      navigate('/');
+      navigate(next);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -26,36 +31,66 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="card" style={{ maxWidth: 380, margin: '40px auto' }}>
-      <h2>Open a wallet</h2>
-      {error && <div className="error-banner">{error}</div>}
+    <AuthLayout
+      title="Open a wallet"
+      subtitle="It takes a minute. No fee to create an account."
+    >
+      {error && <div className="alert alert-error">{error}</div>}
+
       <form onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="name">Full name</label>
-          <input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+          <input
+            id="name"
+            placeholder="Ada Okeke"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
         </div>
         <div className="field">
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
         <div className="field">
           <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"
+            placeholder="At least 8 characters"
             minLength={8}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button className="btn" type="submit" disabled={loading} style={{ width: '100%' }}>
-          {loading ? 'Opening…' : 'Create account'}
+        <button
+          className="btn btn-primary btn-block btn-lg"
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <span className="spinner" />
+              Opening…
+            </>
+          ) : (
+            "Create account"
+          )}
         </button>
       </form>
-      <p style={{ fontSize: 13, color: 'var(--ink-soft)', marginTop: 16, textAlign: 'center' }}>
-        Already have a wallet? <Link to="/login">Log in</Link>
+
+      <p className="auth-alt">
+        Already have a wallet?{" "}
+        <Link to={`/login?next=${encodeURIComponent(next)}`}>Log in</Link>
       </p>
-    </div>
+    </AuthLayout>
   );
 }

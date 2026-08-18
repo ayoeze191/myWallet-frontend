@@ -1,22 +1,30 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { api, setAuthToken } from '../api';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import { api } from "../api";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem('wallet_token'));
+  const [token, setToken] = useState(() =>
+    localStorage.getItem("wallet_token"),
+  );
   const [user, setUser] = useState(() => {
-    const raw = localStorage.getItem('wallet_user');
+    const raw = localStorage.getItem("wallet_user");
     return raw ? JSON.parse(raw) : null;
   });
 
-  useEffect(() => {
-    setAuthToken(token);
-  }, [token]);
+  // useEffect(() => {
+  //   setAuthToken(token);
+  // }, [token]);
 
   const persist = useCallback((newToken, newUser) => {
-    localStorage.setItem('wallet_token', newToken);
-    localStorage.setItem('wallet_user', JSON.stringify(newUser));
+    localStorage.setItem("wallet_token", newToken);
+    localStorage.setItem("wallet_user", JSON.stringify(newUser));
     setToken(newToken);
     setUser(newUser);
   }, []);
@@ -27,7 +35,7 @@ export function AuthProvider({ children }) {
       persist(data.token, data.user);
       return data;
     },
-    [persist]
+    [persist],
   );
 
   const login = useCallback(
@@ -36,12 +44,12 @@ export function AuthProvider({ children }) {
       persist(data.token, data.user);
       return data;
     },
-    [persist]
+    [persist],
   );
 
   const logout = useCallback(() => {
-    localStorage.removeItem('wallet_token');
-    localStorage.removeItem('wallet_user');
+    localStorage.removeItem("wallet_token");
+    localStorage.removeItem("wallet_user");
     setToken(null);
     setUser(null);
   }, []);

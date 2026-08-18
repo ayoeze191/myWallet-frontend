@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../auth/AuthContext";
 import { LedgerTable } from "../components/LedgerTable";
@@ -31,7 +32,13 @@ export default function DashboardPage() {
   const [transferAmount, setTransferAmount] = useState("");
   const [transferring, setTransferring] = useState(false);
   const [lookupError, setLookupError] = useState(null);
-  const [activeTab, setActiveTab] = useState("overview");
+
+  // The tab lives in the URL so the sidebar can link straight to it and a
+  // reloaded page lands where you left off.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") || "overview";
+  const setActiveTab = (tab) =>
+    setSearchParams(tab === "overview" ? {} : { tab }, { replace: true });
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -212,18 +219,34 @@ export default function DashboardPage() {
         {/* Content */}
         <div className="dashboard-content">
           {activeTab === "overview" && (
-            <div className="card">
-              <h2 className="card-title">Recent Activity</h2>
-              <LedgerTable entries={entries.slice(0, 5)} />
-              {entries.length > 5 && (
-                <button
-                  className="view-more-btn"
-                  onClick={() => setActiveTab("history")}
-                >
-                  View All Transactions →
-                </button>
-              )}
-            </div>
+            <>
+              <div className="card ajo-cta">
+                <div>
+                  <h2 className="card-title">Save together with Ajo</h2>
+                  <p className="ajo-cta-text">
+                    Start a contribution, share the link, and everyone takes the
+                    pot in turn.
+                  </p>
+                </div>
+                <Link to="/contributions" className="btn btn-primary">
+                  <UsersIcon size={18} />
+                  My Ajo
+                </Link>
+              </div>
+
+              <div className="card">
+                <h2 className="card-title">Recent Activity</h2>
+                <LedgerTable entries={entries.slice(0, 5)} />
+                {entries.length > 5 && (
+                  <button
+                    className="view-more-btn"
+                    onClick={() => setActiveTab("history")}
+                  >
+                    View All Transactions →
+                  </button>
+                )}
+              </div>
+            </>
           )}
 
           {activeTab === "fund" && (
