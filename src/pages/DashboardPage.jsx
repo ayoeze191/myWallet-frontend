@@ -14,6 +14,7 @@ import {
   MenuIcon,
 } from "lucide-react";
 import Sidebar from "../components/Sidebar";
+import ChatWidget from "../components/ChatWidget";
 
 export default function DashboardPage() {
   const { user, logout } = useAuth();
@@ -374,6 +375,8 @@ export default function DashboardPage() {
           )}
         </div>
       </main>
+
+      <ChatWidget userName={user?.name || wallet?.owner_name} />
     </div>
   );
 }

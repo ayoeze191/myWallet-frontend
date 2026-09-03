@@ -15,13 +15,7 @@ import {
   LockIcon,
   ZapIcon,
 } from "lucide-react";
-
-/**
- * Public landing page.
- *
- * Shown at "/" to anyone without a session; a logged-in visitor gets the
- * dashboard on that same route instead (see App.jsx).
- */
+import ChatWidget from "../components/ChatWidget";
 
 const FEATURES = [
   {
@@ -94,10 +88,22 @@ const GUARANTEES = [
 
 const COMPARISON = [
   ["Who holds the money", "One person's account", "Each member's own wallet"],
-  ["Record of contributions", "A notebook or group chat", "An append-only ledger"],
-  ["Collecting on the due date", "Chase everybody manually", "Debited automatically"],
+  [
+    "Record of contributions",
+    "A notebook or group chat",
+    "An append-only ledger",
+  ],
+  [
+    "Collecting on the due date",
+    "Chase everybody manually",
+    "Debited automatically",
+  ],
   ["Payout order", "Argued over", "Fixed, visible to all members"],
-  ["Missed a payment?", "Someone has to raise it", "Recorded against the round"],
+  [
+    "Missed a payment?",
+    "Someone has to raise it",
+    "Recorded against the round",
+  ],
 ];
 
 const FAQS = [
@@ -160,14 +166,15 @@ export default function LandingPage() {
             </span>
 
             <h1>
-              Save together.<br />
+              Save together.
+              <br />
               Collect <em>in turn.</em>
             </h1>
 
             <p className="hero-sub">
               The savings circle your family has always run, on a real ledger.
-              Everyone contributes on the same day, one person takes the pot, and
-              every kobo is accounted for on both sides.
+              Everyone contributes on the same day, one person takes the pot,
+              and every kobo is accounted for on both sides.
             </p>
 
             <div className="hero-actions">
@@ -211,7 +218,9 @@ export default function LandingPage() {
                   </span>
                   <span className="wallet-row-body">
                     <span className="wallet-row-title">Payout — Round 3</span>
-                    <span className="wallet-row-meta">Lagos Traders Circle</span>
+                    <span className="wallet-row-meta">
+                      Lagos Traders Circle
+                    </span>
                   </span>
                   <span className="wallet-row-amount">+₦180,000.00</span>
                 </div>
@@ -221,7 +230,9 @@ export default function LandingPage() {
                   </span>
                   <span className="wallet-row-body">
                     <span className="wallet-row-title">Contribution</span>
-                    <span className="wallet-row-meta">Monthly · auto-debit</span>
+                    <span className="wallet-row-meta">
+                      Monthly · auto-debit
+                    </span>
                   </span>
                   <span className="wallet-row-amount out">−₦20,000.00</span>
                 </div>
@@ -231,7 +242,9 @@ export default function LandingPage() {
                   </span>
                   <span className="wallet-row-body">
                     <span className="wallet-row-title">Wallet top-up</span>
-                    <span className="wallet-row-meta">Paystack · confirmed</span>
+                    <span className="wallet-row-meta">
+                      Paystack · confirmed
+                    </span>
                   </span>
                   <span className="wallet-row-amount">+₦50,000.00</span>
                 </div>
@@ -322,8 +335,8 @@ export default function LandingPage() {
               A wallet, a ledger and a scheduler that agree with each other.
             </h2>
             <p className="section-sub">
-              Everything a savings circle needs to run without anyone holding the
-              money on everybody else's behalf.
+              Everything a savings circle needs to run without anyone holding
+              the money on everybody else's behalf.
             </p>
           </div>
 
@@ -372,7 +385,9 @@ export default function LandingPage() {
         <div className="container">
           <div className="section-head section-head-center">
             <span className="eyebrow">The difference</span>
-            <h2 className="section-title">Running an ajo, with and without us.</h2>
+            <h2 className="section-title">
+              Running an ajo, with and without us.
+            </h2>
           </div>
 
           <div className="compare">
@@ -461,27 +476,45 @@ export default function LandingPage() {
             <div className="footer-col">
               <h4>Product</h4>
               <ul>
-                <li><a href="#how">How it works</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#trust">Under the hood</a></li>
-                <li><Link to="/register">Open a wallet</Link></li>
+                <li>
+                  <a href="#how">How it works</a>
+                </li>
+                <li>
+                  <a href="#features">Features</a>
+                </li>
+                <li>
+                  <a href="#trust">Under the hood</a>
+                </li>
+                <li>
+                  <Link to="/register">Open a wallet</Link>
+                </li>
               </ul>
             </div>
 
             <div className="footer-col">
               <h4>Account</h4>
               <ul>
-                <li><Link to="/login">Log in</Link></li>
-                <li><Link to="/register">Create account</Link></li>
-                <li><Link to="/contributions">My Ajo</Link></li>
+                <li>
+                  <Link to="/login">Log in</Link>
+                </li>
+                <li>
+                  <Link to="/register">Create account</Link>
+                </li>
+                <li>
+                  <Link to="/contributions">My Ajo</Link>
+                </li>
               </ul>
             </div>
 
             <div className="footer-col">
               <h4>Support</h4>
               <ul>
-                <li><a href="#faq">FAQ</a></li>
-                <li><a href="mailto:support@ajo.app">support@ajo.app</a></li>
+                <li>
+                  <a href="#faq">FAQ</a>
+                </li>
+                <li>
+                  <a href="mailto:support@ajo.app">support@ajo.app</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -492,6 +525,8 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
+      <ChatWidget />
     </div>
   );
 }
