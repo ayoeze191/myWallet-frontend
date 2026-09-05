@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# React Router owns the routes, so every path has to be served index.html and
+# resolved in the browser. Status 200 (a rewrite, not a 302) keeps the URL the
+# user typed intact. Without this, reloading /contributions asks Netlify for a
+# file that was never built and gets its 404 page.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

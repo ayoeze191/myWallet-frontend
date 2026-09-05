@@ -65,7 +65,10 @@ export const api = {
   listContributions: () => request("/contributions"),
 
   createContribution: (payload) =>
-    request("/contributions", { method: "POST", body: JSON.stringify(payload) }),
+    request("/contributions", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
 
   getContribution: (id) => request(`/contributions/${id}`),
 
@@ -73,7 +76,8 @@ export const api = {
   // by someone who hasn't signed up yet.
   getInvite: (code) => request(`/invites/${code}`),
 
-  joinContribution: (code) => request(`/invites/${code}/join`, { method: "POST" }),
+  joinContribution: (code) =>
+    request(`/invites/${code}/join`, { method: "POST" }),
 
   setPayoutOrder: (id, slots) =>
     request(`/contributions/${id}/payout-order`, {
@@ -81,11 +85,14 @@ export const api = {
       body: JSON.stringify({ slots }),
     }),
 
-  cancelContribution: (id) => request(`/contributions/${id}/cancel`, { method: "POST" }),
+  cancelContribution: (id) =>
+    request(`/contributions/${id}/cancel`, { method: "POST" }),
 
-  leaveContribution: (id) => request(`/contributions/${id}/leave`, { method: "POST" }),
+  leaveContribution: (id) =>
+    request(`/contributions/${id}/leave`, { method: "POST" }),
 
   // Asks the server to advance this group now instead of waiting for the
   // next scheduled sweep.
-  runContribution: (id) => request(`/contributions/${id}/run`, { method: "POST" }),
+  runContribution: (id) =>
+    request(`/contributions/${id}/run`, { method: "POST" }),
 };
