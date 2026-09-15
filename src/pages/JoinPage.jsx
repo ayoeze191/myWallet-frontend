@@ -6,12 +6,6 @@ import { formatMoney } from "../components/LedgerTable";
 import { formatDay, FREQUENCY_LABEL } from "../lib/format";
 import { UsersIcon } from "lucide-react";
 
-/**
- * The landing page for a shared invite link.
- *
- * Readable without an account — someone receiving this on WhatsApp should be
- * able to see what they are being invited to before deciding to sign up.
- */
 export default function JoinPage() {
   const { code } = useParams();
   const { token } = useAuth();
@@ -41,7 +35,6 @@ export default function JoinPage() {
       const { contribution } = await api.joinContribution(code);
       navigate(`/contributions/${contribution.id}`);
     } catch (err) {
-      // Already a member? Nothing has gone wrong — just take them there.
       if (err.message?.includes("already joined")) {
         navigate("/contributions");
         return;
@@ -76,7 +69,6 @@ export default function JoinPage() {
     );
   }
 
-  // The pot grows as people join, so show what it will be when full.
   const potWhenFull =
     Number(invite.contribution_amount) * Number(invite.member_limit);
   const seatsLeft = invite.member_limit - invite.member_count;
@@ -152,7 +144,7 @@ export default function JoinPage() {
           </>
         ) : (
           <>
-            {/* Send them back here once they have an account. */}
+            {}
             <Link
               to={`/register?next=/join/${code}`}
               className="btn btn-primary btn-block"

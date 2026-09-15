@@ -1,22 +1,3 @@
-/**
- * The little support bot that answers questions from the home page.
- *
- * It is deliberately rules-based rather than a model call: every answer here
- * is one we can stand behind, it costs nothing per message, it replies
- * instantly, and it cannot invent a feature the app does not have. The trade
- * is that it only knows what is written below — so when nothing scores well
- * enough it says so and points at the FAQ instead of guessing.
- */
-
-/* --------------------------------------------------------------------------
-   Knowledge base
-
-   `keywords` are what the matcher scores against — a phrase (with a space)
-   counts for more than a lone word, and a word shared by many topics is worth
-   proportionally less (see scoring below), so "money" barely moves the needle
-   while "esusu" decides an answer on its own.
-   -------------------------------------------------------------------------- */
-
 const TOPICS = [
   {
     id: "what-is-ajo",
@@ -371,10 +352,6 @@ const TOPICS = [
   },
 ];
 
-/* --------------------------------------------------------------------------
-   Conversational odds and ends the topic list shouldn't carry
-   -------------------------------------------------------------------------- */
-
 const SMALL_TALK = [
   {
     id: "greeting",
@@ -399,13 +376,11 @@ const SMALL_TALK = [
   },
 ];
 
-/** Opening line. A signed-in member gets their first name in it. */
 export function greetingFor(name) {
   const who = name ? ` ${name.trim().split(" ")[0]}` : "";
   return `Hi${who} 👋 I'm the Ajo assistant. Ask me about wallets, funding or how the circles work — or pick one of these:`;
 }
 
-/** The chips offered before the visitor has asked anything. */
 export const OPENING_SUGGESTIONS = [
   "what-is-ajo",
   "get-started",
@@ -416,14 +391,6 @@ export const OPENING_SUGGESTIONS = [
 const FALLBACK =
   "I don't have a good answer for that one — I only know what's written into me, and I'd rather say so than guess.\n\nThe FAQ near the bottom of the page covers the common ground, and support@ajo.app reaches a person. In the meantime, try one of these:";
 
-/* --------------------------------------------------------------------------
-   Matching
-
-   A keyword's worth is divided by how many topics use it, so a word that
-   shows up everywhere ("money", "wallet") can't decide a match on its own
-   while a distinctive one ("esusu", "idempotency") can.
-   -------------------------------------------------------------------------- */
-
 const KEYWORD_SPREAD = TOPICS.reduce((counts, topic) => {
   for (const keyword of topic.keywords) {
     counts[keyword] = (counts[keyword] || 0) + 1;
@@ -431,7 +398,6 @@ const KEYWORD_SPREAD = TOPICS.reduce((counts, topic) => {
   return counts;
 }, {});
 
-/** Pads with spaces so single-word lookups can't match inside a longer word. */
 function normalise(text) {
   return ` ${text
     .toLowerCase()
@@ -444,20 +410,14 @@ function scoreTopic(topic, haystack) {
   let score = 0;
   for (const keyword of topic.keywords) {
     const words = keyword.split(" ").length;
-    // Trailing "s" catches the plural of most of these without a stemmer.
     const hit =
       haystack.includes(` ${keyword} `) ||
       (words === 1 && haystack.includes(` ${keyword}s `));
-    // Longer phrases are more specific, and win the ties they create:
-    // "start a circle" has to beat "get started" on "how do I start a circle".
     if (hit) score += (2 * words - 1) / KEYWORD_SPREAD[keyword];
   }
   return score;
 }
 
-// Roughly "one distinctive word, or several shared ones". Below this we would
-// be answering on the strength of a word like "money" alone, which is how a
-// bot ends up confidently off-topic.
 const CONFIDENCE_FLOOR = 0.9;
 
 function labelsFor(ids) {
@@ -467,12 +427,6 @@ function labelsFor(ids) {
     .map((t) => t.label);
 }
 
-/**
- * Answers one message.
- *
- * @param {string} question raw text as typed
- * @returns {{ text: string, suggestions: string[], matched: boolean, topicId: string|null }}
- */
 export function answerFor(question) {
   const haystack = normalise(question);
 
@@ -500,8 +454,6 @@ export function answerFor(question) {
     };
   }
 
-  // Small talk is checked after topics on purpose: "hi, how do I fund my
-  // wallet?" is a funding question, not a greeting.
   const chat = SMALL_TALK.find((s) => s.test.test(haystack.trim()));
   if (chat) {
     return {
@@ -512,8 +464,6 @@ export function answerFor(question) {
     };
   }
 
-  // Nothing landed — offer whatever came closest rather than the same four
-  // openers every time, so a near miss still points somewhere useful.
   const nearest = ranked
     .filter((r) => r.score > 0)
     .slice(0, 3)
@@ -527,7 +477,6 @@ export function answerFor(question) {
   };
 }
 
-/** Suggestion chips are labels, so a tap replays them as a question. */
 export function answerForLabel(label) {
   const topic = TOPICS.find((t) => t.label === label);
   if (!topic) return answerFor(label);

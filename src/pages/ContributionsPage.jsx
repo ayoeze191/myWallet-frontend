@@ -12,7 +12,6 @@ import {
   RefreshCwIcon,
 } from "lucide-react";
 
-// The soonest an Ajo can start is tomorrow — members need a window to join.
 function tomorrow() {
   const d = new Date();
   d.setDate(d.getDate() + 1);
@@ -70,8 +69,6 @@ export default function ContributionsPage() {
       setForm({ ...EMPTY_FORM, startDate: tomorrow() });
       setShowForm(false);
       await load();
-      // Sharing the link is the whole point, so put it on the clipboard
-      // the moment the group exists.
       copyLink(created.invite_link, created.id);
     } catch (err) {
       setError(err.message);
@@ -90,9 +87,6 @@ export default function ContributionsPage() {
     );
   }
 
-  // While an Ajo is still open the pot is a moving target, so show what it
-  // will be worth once the group fills. After it starts, membership is
-  // frozen and the number is exact.
   const potPerRound = (c) =>
     Number(c.contribution_amount) *
     Number(c.status === "open" ? c.member_limit : c.member_count);

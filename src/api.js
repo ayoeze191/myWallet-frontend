@@ -1,10 +1,5 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
 
-// let authToken = null;
-// export function setAuthToken(token) {
-//   authToken = token;
-// }
-
 async function request(path, options = {}) {
   const authToken = localStorage.getItem("wallet_token");
   const res = await fetch(`${API_BASE}${path}`, {
@@ -60,8 +55,6 @@ export const api = {
       body: JSON.stringify({ toEmail, amount }),
     }),
 
-  // ---- Ajo / Esusu contributions ----
-
   listContributions: () => request("/contributions"),
 
   createContribution: (payload) =>
@@ -72,8 +65,6 @@ export const api = {
 
   getContribution: (id) => request(`/contributions/${id}`),
 
-  // Public — works without a token, so an invite link can be previewed
-  // by someone who hasn't signed up yet.
   getInvite: (code) => request(`/invites/${code}`),
 
   joinContribution: (code) =>
@@ -91,8 +82,6 @@ export const api = {
   leaveContribution: (id) =>
     request(`/contributions/${id}/leave`, { method: "POST" }),
 
-  // Asks the server to advance this group now instead of waiting for the
-  // next scheduled sweep.
   runContribution: (id) =>
     request(`/contributions/${id}/run`, { method: "POST" }),
 };

@@ -18,10 +18,6 @@ export function AuthProvider({ children }) {
     return raw ? JSON.parse(raw) : null;
   });
 
-  // useEffect(() => {
-  //   setAuthToken(token);
-  // }, [token]);
-
   const persist = useCallback((newToken, newUser) => {
     localStorage.setItem("wallet_token", newToken);
     localStorage.setItem("wallet_user", JSON.stringify(newUser));

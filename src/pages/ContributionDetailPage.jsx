@@ -34,8 +34,6 @@ export default function ContributionDetailPage() {
   const [copied, setCopied] = useState(false);
   const [busy, setBusy] = useState(false);
 
-  // Local working copy of the payout order, so the creator can shuffle
-  // members around and only commit when they are happy with it.
   const [order, setOrder] = useState([]);
   const [orderDirty, setOrderDirty] = useState(false);
 
@@ -117,8 +115,6 @@ export default function ContributionDetailPage() {
   const { contribution, members, rounds, me } = data;
   const isOpen = contribution.status === "open";
   const isCreator = contribution.is_creator;
-  // Still open? The pot grows as people join, so quote it at full strength.
-  // Once active, membership is frozen and this is the real figure.
   const potPerRound =
     Number(contribution.contribution_amount) *
     (isOpen ? Number(contribution.member_limit) : members.length);

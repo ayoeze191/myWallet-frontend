@@ -8,7 +8,6 @@ export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  // Someone who arrived from an Ajo invite goes back to it after logging in.
   const next = safeNext(searchParams.get("next"));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -34,8 +34,6 @@ export default function DashboardPage() {
   const [transferring, setTransferring] = useState(false);
   const [lookupError, setLookupError] = useState(null);
 
-  // The tab lives in the URL so the sidebar can link straight to it and a
-  // reloaded page lands where you left off.
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "overview";
   const setActiveTab = (tab) =>
@@ -135,7 +133,7 @@ export default function DashboardPage() {
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <main className="dashboard-main">
-        {/* Header */}
+        {}
         <header className="dashboard-header">
           <div className="header-left">
             <button
@@ -153,11 +151,11 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        {/* Alerts */}
+        {}
         {error && <div className="alert alert-error">{error}</div>}
         {success && <div className="alert alert-success">{success}</div>}
 
-        {/* Stats Cards */}
+        {}
         {wallet && (
           <div className="stats-grid">
             <div className="stat-card stat-card-primary">
@@ -189,7 +187,7 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Tabs */}
+        {}
         <div className="tabs-container">
           <button
             className={`tab-btn ${activeTab === "overview" ? "tab-active" : ""}`}
@@ -217,7 +215,7 @@ export default function DashboardPage() {
           </button>
         </div>
 
-        {/* Content */}
+        {}
         <div className="dashboard-content">
           {activeTab === "overview" && (
             <>

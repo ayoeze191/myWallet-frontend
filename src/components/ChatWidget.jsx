@@ -12,16 +12,6 @@ import {
   answerForLabel,
 } from "../lib/chatbot";
 
-/**
- * The fixed help bubble, bottom-right on the home page.
- *
- * Answers come from lib/chatbot.js — a local rules-based knowledge base, so
- * there is no request in flight and nothing to fail. The short "typing" pause
- * before each reply is cosmetic: an instant answer reads as a canned popup,
- * a beat of delay reads as a reply.
- *
- * @param {string} [userName] greets a signed-in member by name
- */
 export default function ChatWidget({ userName }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -36,8 +26,6 @@ export default function ChatWidget({ userName }) {
 
   const newId = () => `m${nextId.current++}`;
 
-  // Seeded on first open rather than at mount, so a name coming from the auth
-  // context is already there by the time we greet.
   useEffect(() => {
     if (!open || messages.length) return;
     setMessages([
@@ -50,7 +38,6 @@ export default function ChatWidget({ userName }) {
     ]);
   }, [open, messages.length, userName]);
 
-  // Pin to the newest message as the conversation grows.
   useEffect(() => {
     const box = scrollRef.current;
     if (box) box.scrollTop = box.scrollHeight;
@@ -69,7 +56,6 @@ export default function ChatWidget({ userName }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  // A reply landing after the widget unmounts would set state on nothing.
   useEffect(() => () => clearTimeout(replyTimer.current), []);
 
   function reply(responseFor, question) {
@@ -80,7 +66,6 @@ export default function ChatWidget({ userName }) {
     setTyping(true);
 
     const answer = responseFor(question);
-    // Longer answers get a slightly longer pause — reading time, roughly.
     const pause = Math.min(1100, 380 + answer.text.length * 1.5);
 
     clearTimeout(replyTimer.current);
@@ -149,8 +134,8 @@ export default function ChatWidget({ userName }) {
             {messages.map((message) => (
               <div key={message.id} className={`chat-turn ${message.from}`}>
                 <div className="chat-bubble">
-                  {/* Answers are authored with blank lines between
-                      paragraphs; keep that shape rather than one wall. */}
+                  {
+}
                   {message.text.split("\n\n").map((para, i) => (
                     <p key={i}>{para}</p>
                   ))}

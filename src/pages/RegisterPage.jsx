@@ -8,7 +8,6 @@ export default function RegisterPage() {
   const { register } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  // Someone who arrived from an Ajo invite goes back to it after signing up.
   const next = safeNext(searchParams.get("next"));
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

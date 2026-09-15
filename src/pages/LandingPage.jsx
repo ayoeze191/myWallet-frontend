@@ -157,7 +157,7 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Hero */}
+      {}
       <section className="hero">
         <div className="container hero-inner">
           <div>
@@ -280,7 +280,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Capability strip */}
+      {}
       <div className="strip">
         <div className="container strip-inner">
           <span className="strip-label">Built on</span>
@@ -299,7 +299,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* How it works */}
+      {}
       <section className="section" id="how">
         <div className="container">
           <div className="section-head">
@@ -326,7 +326,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features */}
+      {}
       <section className="section section-alt" id="features">
         <div className="container">
           <div className="section-head">
@@ -354,7 +354,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Guarantees band */}
+      {}
       <section className="band" id="trust">
         <div className="container">
           <div className="section-head">
@@ -380,7 +380,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Comparison */}
+      {}
       <section className="section">
         <div className="container">
           <div className="section-head section-head-center">
@@ -413,7 +413,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ */}
+      {}
       <section className="section section-alt" id="faq">
         <div className="container">
           <div className="section-head section-head-center">
@@ -432,7 +432,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Closing CTA */}
+      {}
       <section className="cta">
         <div className="container">
           <div className="cta-panel">

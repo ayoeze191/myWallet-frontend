@@ -7,11 +7,6 @@ const POINTS = [
   "Every movement on a double-entry ledger",
 ];
 
-/**
- * Split-screen shell for log in / sign up: the brand panel on the left, the
- * form on the right. The panel collapses away below 1024px and the brand
- * lockup reappears above the form instead.
- */
 export function AuthLayout({ title, subtitle, children }) {
   return (
     <div className="auth-shell">

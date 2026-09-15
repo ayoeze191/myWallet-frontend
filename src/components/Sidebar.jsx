@@ -11,8 +11,6 @@ import {
   XIcon,
 } from "lucide-react";
 
-// Wallet views live on the dashboard as tabs, so those entries carry a ?tab=
-// and the dashboard reads it back. Ajo has pages of its own.
 const MENU = [
   { to: "/", label: "Dashboard", icon: HomeIcon, tab: "overview" },
   { to: "/contributions", label: "My Ajo", icon: UsersIcon },
@@ -37,10 +35,10 @@ export default function Sidebar({ isOpen, onClose }) {
 
   return (
     <>
-      {/* Mobile Overlay */}
+      {}
       {isOpen && <div className="sidebar-overlay" onClick={onClose} />}
 
-      {/* Sidebar */}
+      {}
       <aside
         className={`sidebar ${isOpen ? "sidebar-open" : "sidebar-closed"}`}
       >
